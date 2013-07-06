@@ -14,15 +14,18 @@ setmetatable(Level, {
 })
 
 function Level:_init(windowSize)
+	--how long the survival phase lasts (in seconds)
 	self.maxSurvival=1
 	self.survivalTimer=0
 	
+	--how long the choice phase lasts (in seconds)
 	self.maxChoice=10
 	self.choiceTimer=0
 	
 	self.survival=true
 	self.choiceMade=false
 	
+	--general timer
 	self.timer=0
 	
 	self.entities = {}
@@ -31,6 +34,7 @@ function Level:_init(windowSize)
 	
 	self.minViewers=5
 	self.maxViewers=10
+	
 	self.windowSize=windowSize
 	self.stageRect={x=0, y=0, width=251, height=self.windowSize.height-154}
 	self:generateViewers()
@@ -85,6 +89,7 @@ function Level:getEntitiesInRange(position, radius)
 	return foundEntities
 end
 
+--gets all the quotes with their text and stats from the .xml file
 function Level:loadQuotes()
 	self.quotes={}
 	local xmlParser = require("xml/xmlSimple").newParser()
@@ -107,6 +112,7 @@ function Level:loadQuotes()
 	end
 end
 
+--increase the appropriate timer (survival or choice), generates choices once the choice phase starts
 function Level:setTimers(dt)
 	self.timer = self.timer + dt
 
@@ -136,6 +142,7 @@ function Level:setTimers(dt)
 	end
 end
 
+--randomly picks the choices a player has from self.quotes
 function Level:generateChoices()
 	self.choices={}
 	
@@ -193,7 +200,7 @@ function Level:update(dt)
 	
 	if(not self.survival)
 	then
-		--made a choice
+		--player has to make a choice on which quote to say
 		if(not self.choiceMade)
 		then
 			local choice=0
@@ -214,11 +221,11 @@ function Level:update(dt)
 				choice=4
 			end
 			
+			--a choice has been made, calculate effect on viewers
 			if(choice~=0)
 			then
 				for i=1, #self.entities
 				do
-					--automatically choosing first quote for now
 					if self.entities[i].type == "Viewer" then
 						self.entities[i]:calculateStatus(self.choices[choice])
 					end
