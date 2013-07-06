@@ -14,12 +14,14 @@ setmetatable(Character, {
 
 function Character:_init(level, position)
 	Entity._init(self, level, "Character", position)
+	
+	self.image=love.graphics.newImage("assets/viewer.png")
 end
 
 function Character:update(dt)
-	local speed = 10
-	local leftClip = 10
-	local topClip = 10
+	local speed = 40
+	local leftClip = 27
+	local topClip = 44
 	local rightClip = 100
 	local bottomClip = 300
 
@@ -51,5 +53,5 @@ function Character:update(dt)
 end
 
 function Character:draw()
-
+	love.graphics.draw(self.image, self.position.x, self.position.y, 0, 1, 1, self.image:getWidth()/2, self.image:getHeight()/2)
 end

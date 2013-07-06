@@ -22,7 +22,7 @@ end
 
 function Bullet:update(dt)
 	self.position.x = self.position.x + self.velocity.x * dt
-	self.position.y = self.position.x + self.velocity.y * dt
+	self.position.y = self.position.y + self.velocity.y * dt
 	
 	local entitiesCollided = self.level:getEntitiesInRange(self.position, self.size)
 	
@@ -36,5 +36,6 @@ function Bullet:update(dt)
 end
 
 function Bullet:draw()
-	
+	love.graphics.setColor(255, 255, 255, 255)
+	love.graphics.circle("fill", self.position.x, self.position.y, self.size, segments)
 end
