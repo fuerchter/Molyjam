@@ -19,10 +19,10 @@ function Bullet:_init(level, position, velocity, size)
 end
 
 function Bullet:update(dt)
-	position.x += velocity.x
-	position.y += velocity.y
+	self.position.x = self.position.x + self.velocity.x * dt
+	self.position.y = self.position.x + self.velocity.y * dt
 	
-	entitiesCollided = self.level:getEntitiesInRange(self.position, self.size)
+	local entitiesCollided = self.level:getEntitiesInRange(self.position, self.size)
 	
 	for index = 1, #entitiesCollided do
 		if entitiesCollided[index].type == "character" then

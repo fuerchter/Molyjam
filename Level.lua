@@ -46,6 +46,18 @@ function Level:removeEntity(entity)
 	end
 end
 
+function Level:getEntityByType(entType)
+	local foundEntites = {}
+
+	for i = 1, #self.entities do
+		if self.entities[i].type == entType then
+			table.insert(foundEntities, self.entities[i])
+		end
+	end
+	
+	return foundEntities
+end
+
 function Level:findEntity(entity)
 	for i = 1, #self.entities do
 		if self.entities[i] == entity then
@@ -56,13 +68,13 @@ function Level:findEntity(entity)
 end
 
 function Level:getEntitiesInRange(position, radius)
-	foundEntites = {}
+	local foundEntites = {}
 
 	for i = 1, #self.entities do
 		--and do the pythagoras
-		x = self.entities[i].position.x - position.x
-		y = self.entities[i].position.y - position.y
-		r = math.sqrt(x*x + y*y)
+		local x = self.entities[i].position.x - position.x
+		local y = self.entities[i].position.y - position.y
+		local r = math.sqrt(x*x + y*y)
 	
 		if r <= radius then
 			table.insert(foundEntities, self.entities[i])
