@@ -128,7 +128,11 @@ function Level:setTimers(dt)
 	then
 		if(not self.choiceMade)
 		then
-			--no choice was made?
+			for i=1, #self.entities do
+				if self.entities[i].type == "Viewer" then
+					self.entities[i]:calculateStatus(Quote("INVALID", {1,1,1,1}))
+				end
+			end
 		end
 		self.choiceTimer=0
 		self.survival=true
