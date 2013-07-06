@@ -26,11 +26,50 @@ function Level:_init()
 	
 	self.timer=0
 	
+	self.entities = {}
+	
 	self:loadQuotes()
 	
 	self.minViewers=5
 	self.maxViewers=10
 	self:generateViewers()
+end
+
+function Level:registerEntity(entity)
+	table.insert(self.entities, entity)
+end
+
+function Level:removeEntity(entity)
+	pos = self:findEntity(entity)
+	if pos ~= -1 then
+		table.remove(self.entities, pos)
+	end
+end
+
+function Level:findEntity(entity)
+	for i = 1, #self.entities do
+		if self.entities[i] == entity then
+			return i
+		end
+	end
+	return -1
+end
+
+function Level:getEntitiesInRange(position, radius)
+	foundEntites = {}
+
+	for i = 1, #self.entities do
+		--and do the pythagoras
+		x = self.entities[i].position.x - position.x
+		y = self.entities[i].position.y - position.y
+		r = math.sqrt(x*x + y*y)
+	
+		if r <= radius then
+			table.insert(foundEntities, self.entities[i])
+		end
+	end
+	
+	return foundEntities
 end
 
 function Level:loadQuotes()
@@ -93,7 +132,6 @@ function Level:generateChoice()
 end
 
 function Level:generateViewers()
-	self.viewers={}
 	--generating a random amount of viewers with random opinions
 	for i=1, math.random(self.minViewers, self.maxViewers)
 	do
@@ -108,7 +146,7 @@ function Level:generateViewers()
 				opinions[i]=false
 			end
 		end
-		table.insert(self.viewers, Viewer(opinions))
+		Viewer(self, opinions, {x=100,y=100})
 	end
 end
 
@@ -120,10 +158,12 @@ function Level:update(dt)
 		--made a choice
 		if(not self.choiceMade and love.keyboard.isDown("return"))
 		then
-			for i=1, #self.viewers
+			for i=1, #self.entities
 			do
 				--automatically choosing first quote for now
-				self.viewers[i]:calculateStatus(self.choice[1])
+				if self.entities[i].type == "Viewer" then
+					self.entities[i]:calculateStatus(self.choice[1])
+				end
 			end
 			selfChoiceMade=true
 		end
@@ -131,5 +171,7 @@ function Level:update(dt)
 end
 
 function Level:draw()
-	
+	for i = 1, #self.entities do
+		self.entities[i]:draw()
+	end
 end

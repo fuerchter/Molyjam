@@ -13,8 +13,8 @@ setmetatable(Viewer, {
 			end,
 })
 
-function Viewer:_init(opinions)
-	Entity._init(self, "Viewer")
+function Viewer:_init(level, opinions, position)
+	Entity._init(self, level, "Viewer", position)
 	
 	self.statusList={}
 	self.statusList[1]="happy"
