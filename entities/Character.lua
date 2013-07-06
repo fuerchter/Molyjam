@@ -20,10 +20,10 @@ end
 
 function Character:update(dt)
 	local speed = 40
-	local leftClip = 27
-	local topClip = 44
-	local rightClip = 100
-	local bottomClip = 300
+	local leftClip = 0
+	local topClip = 0
+	local rightClip = self.level.stageRect.width
+	local bottomClip = self.level.stageRect.height
 
 	if love.keyboard.isDown("w") then
 		self.position.y = self.position.y - speed * dt
@@ -38,17 +38,17 @@ function Character:update(dt)
 		self.position.x = self.position.x + speed * dt
 	end
 	
-	if self.position.x < leftClip then
-		self.position.x = leftClip
+	if self.position.x-self.image:getWidth()/2 < leftClip then
+		self.position.x = leftClip+self.image:getWidth()/2
 	end
-	if self.position.y < topClip then
-		self.position.y = topClip
+	if self.position.y-self.image:getHeight()/2 < topClip then
+		self.position.y = topClip+self.image:getHeight()/2
 	end
-	if self.position.x > rightClip then
-		self.position.x = rightClip
+	if self.position.x+self.image:getWidth()/2 > rightClip then
+		self.position.x = rightClip-self.image:getWidth()/2
 	end
-	if self.position.y > bottomClip then
-		self.position.y = bottomClip
+	if self.position.y+self.image:getHeight()/2 > bottomClip then
+		self.position.y = bottomClip-self.image:getHeight()/2
 	end
 end
 

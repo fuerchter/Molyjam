@@ -13,7 +13,7 @@ setmetatable(Level, {
 			end,
 })
 
-function Level:_init()
+function Level:_init(windowSize)
 	self.maxSurvival=1
 	self.survivalTimer=0
 	
@@ -31,6 +31,8 @@ function Level:_init()
 	
 	self.minViewers=5
 	self.maxViewers=10
+	self.windowSize=windowSize
+	self.stageRect={x=0, y=0, width=251, height=self.windowSize.height-154}
 	self:generateViewers()
 end
 
@@ -181,7 +183,8 @@ function Level:generateViewers()
 				opinions[i]=false
 			end
 		end
-		Viewer(self, opinions, {x=math.random(600, 1280),y=math.random(720)})
+		--Viewer size???
+		Viewer(self, opinions, {x=math.random(self.stageRect.width+27, self.windowSize.width-27),y=math.random(42, self.stageRect.height-42)})
 	end
 end
 
@@ -231,10 +234,11 @@ function Level:update(dt)
 end
 
 function Level:drawChoices()
-	love.graphics.print(self.choices[1].text .. " " .. self.choices[1].influence[1] .. " " .. self.choices[1].influence[2] .. " " .. self.choices[1].influence[3] .. " " .. self.choices[1].influence[4], 150, 0)
-	love.graphics.print(self.choices[2].text .. " " .. self.choices[2].influence[1] .. " " .. self.choices[2].influence[2] .. " " .. self.choices[2].influence[3] .. " " .. self.choices[2].influence[4], 0, 50)
-	love.graphics.print(self.choices[3].text .. " " .. self.choices[3].influence[1] .. " " .. self.choices[3].influence[2] .. " " .. self.choices[3].influence[3] .. " " .. self.choices[3].influence[4], 150, 50)
-	love.graphics.print(self.choices[4].text .. " " .. self.choices[4].influence[1] .. " " .. self.choices[4].influence[2] .. " " .. self.choices[4].influence[3] .. " " .. self.choices[4].influence[4], 75, 100)
+	for i=1, #self.choices
+	do
+		love.graphics.print(self.choices[i].text .. " " .. self.choices[i].influence[1] .. " " .. self.choices[i].influence[2] .. " " .. self.choices[i].influence[3] .. " " .. self.choices[i].influence[4], 0, self.stageRect.height+(i-1)*15)
+	end
+	
 end
 
 function Level:drawViewers()
