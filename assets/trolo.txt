@@ -1,0 +1,49 @@
+import core.ai.AiMapInfo;
+import core.ai.AiPlayerInfo;
+import core.map.FieldType;
+import core.player.Player.Action;
+import core.player.PlayerController;
+
+public class Blubb implements PlayerController {
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return ".";
+	}
+
+	@Override
+	public String getAuthor() {
+		// TODO Auto-generated method stub
+		return "me";
+	}
+
+	@Override
+	public Action think(AiMapInfo map, AiPlayerInfo[] enemies,
+			AiPlayerInfo ownPlayer) {
+		// TODO Auto-generated method stub
+		FieldType rightField = map.getField(ownPlayer.getPosition().right());
+		FieldType leftField = map.getField(ownPlayer.getPosition().left());
+		FieldType downField = map.getField(ownPlayer.getPosition().down());
+		FieldType upField = map.getField(ownPlayer.getPosition().up());
+		if (map.getRemainingLifetimeOfField(ownPlayer.getPosition()) == 1) {
+
+			if (rightField == FieldType.RESTRICTED_FIELD ||rightField == FieldType.DROPPED_FIELD) {
+				if (upField == FieldType.RESTRICTED_FIELD||upField == FieldType.DROPPED_FIELD) {
+					if (downField == FieldType.RESTRICTED_FIELD ||downField == FieldType.DROPPED_FIELD) {
+							return Action.MOVE_LEFT;
+
+						}
+						return Action.MOVE_DOWN;
+					}
+					return Action.MOVE_UP;
+				}
+				return Action.MOVE_RIGHT;
+			}else {
+				return Action.DO_NOTHING;
+			
+			}
+		}
+
+	}
+
