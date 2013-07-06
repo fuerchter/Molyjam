@@ -54,7 +54,21 @@ function Viewer:update(dt)
 	if self.status == 2 then
 		if self.bulletTime > 2 then
 			self.bulletTime = 0
-			Bullet(self.level, {x=self.position.x, y=self.position.y}, {x = -10, y = 0}, 4)
+			
+			local speed = -30
+			local y = math.random(1, 10)
+			local x = math.random(1, 10)
+			local length = math.sqrt(x*x + y*y)
+			
+			local length_y = (y / length) * speed
+			
+			if math.random() > 0.5 then
+					length_y = length_y * -1
+			end
+			
+			local length_x = (x / length) * speed
+			
+			Bullet(self.level, {x=self.position.x, y=self.position.y}, {x = length_x, y = length_y}, 4)
 		end
 	elseif self.status == 3 then
 		if self.bulletTime > 2 then
@@ -63,12 +77,17 @@ function Viewer:update(dt)
 			local characters = self.level:getEntitiesByType("Character")
 			
 			if #characters == 1 then
-				local speed = -10
+				local speed = -50
 				local y = math.abs(characters[1].position.y - self.position.y)
 				local x = math.abs(characters[1].position.x - self.position.x)
 				local length = math.sqrt(x*x + y*y)
 				
 				local length_y = (y / length) * speed
+				
+				if characters[1].position.y - self.position.y > 0 then
+					length_y = length_y * -1
+				end
+				
 				local length_x = (x / length) * speed
 				
 				Bullet(self.level, {x=self.position.x, y=self.position.y}, {x = length_x, y = length_y}, 4)
