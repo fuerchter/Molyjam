@@ -25,6 +25,20 @@ function Viewer:_init(level, opinions, position)
 	self.status=1
 	
 	self.bulletTime = 0
+	
+	--make sure there are only two opinions
+	local counter = 0
+	
+	for i=1, #Opinions do
+		
+		if counter == 2 then
+			opinions[i] = false
+		end
+	
+		if opinions[i] == true then
+			counter = counter + 1
+		end
+	end
 
 	self.opinions=opinions
 	
