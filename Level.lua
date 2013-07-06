@@ -14,12 +14,11 @@ setmetatable(Level, {
 })
 
 function Level:_init()
-	self.maxSurvival=5
+	self.maxSurvival=1
 	self.survivalTimer=0
 	
 	self.maxChoice=10
 	self.choiceTimer=0
-	self.choicesToGenerate=4
 	
 	self.survival=true
 	self.choiceMade=false
@@ -137,10 +136,33 @@ end
 
 function Level:generateChoices()
 	self.choices={}
-	for i=1, self.choicesToGenerate
+	
+	--holds the indices in self.quotes of which quotes to display
+	local choiceTable={}
+	for i=1, 4
 	do
-		--seed?
-		table.insert(self.choices, self.quotes[math.random(#self.quotes)])
+		local choice
+		local exists=true --holds whether the current generated number in choice already exists
+		while(exists)
+		do
+			choice=math.random(#self.quotes)
+			exists=false
+			for i=1, #choiceTable
+			do
+				--the current number already exists
+				if(choiceTable[i]==choice)
+				then
+					exists=true
+					break
+				end
+			end
+		end	
+		table.insert(choiceTable, choice)
+	end
+	
+	for i=1, #choiceTable
+	do
+		table.insert(self.choices, self.quotes[choiceTable[i]])
 	end
 end
 
