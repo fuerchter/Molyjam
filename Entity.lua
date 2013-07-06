@@ -10,9 +10,8 @@ setmetatable(Entity, {
 })
 
 --creates an entity
-function Entity:_init(entType, position)
+function Entity:_init(entType)
 	self.type = entType
-	self.position = position
 end
 
 --functions that every entity need

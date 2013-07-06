@@ -5,11 +5,11 @@ Opinions = {
 				[4] = "hipster"
 			}
 
-function Opinions.getNameById(id)
+function Opinions.getName(id)
 	return Opinions[id]
 end
 
-function Opinions.getIdByName(name)
+function Opinions.getId(name)
 	for index = 1, #Opinions do
 		if Opinions[index] == name then
 			return index
