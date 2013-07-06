@@ -1,31 +1,17 @@
-Opinions = {}
-Opinions.__index = Opinions
-
-setmetatable(Opinions, {
-	__call = function (cls, ...)
-				local self = setmetatable({}, cls)
-				self:_init(...)
-				return self
-			end,
-})
-
---creates an entity
-function Opinions:_init()
-	self.list = {}
-	
-	self.list[1] = "vegetarian"
-	self.list[2] = "religious"
-	self.list[3] = "hopper"
-	self.list[4] = "hipster"
-end
+Opinions = {
+				[1] = "vegetarian"
+				[2] = "religious"
+				[3] = "hopper"
+				[4] = "hipster"
+			}
 
 function Opinions:getNameById(id)
-	return self.list[id]
+	return self[id]
 end
 
 function Opinions:getIdByName(name)
-	for index = 1, #self.list do
-		if self.list[index] == name
+	for index = 1, #self do
+		if self[index] == name
 			return index
 		end
 	end
