@@ -27,6 +27,8 @@ function Viewer:_init(level, opinions, position)
 	self.bulletTime = 0
 
 	self.opinions=opinions
+	
+	self.image=love.graphics.newImage("assets/viewer.png")
 end
 
 function Viewer:calculateStatus(quote)
@@ -52,7 +54,7 @@ function Viewer:update(dt)
 	if self.status == 2 then
 		if self.bulletTime > 2 then
 			self.bulletTime = 0
-			Bullet(self.level, self.position, {x = -10, y = 0})
+			Bullet(self.level, {x=self.position.x, y=self.position.y}, {x = -10, y = 0}, 4)
 		end
 	elseif self.status == 3 then
 		if self.bulletTime > 2 then
@@ -69,12 +71,12 @@ function Viewer:update(dt)
 				local length_y = (y / length) * speed
 				local length_x = (x / length) * speed
 				
-				Bullet(self.level, self.position, {x = length_x, y = length_y})
+				Bullet(self.level, {x=self.position.x, y=self.position.y}, {x = length_x, y = length_y}, 4)
 			end
 		end
 	end
 end
 
 function Viewer:draw()
-
+	love.graphics.draw(self.image, self.position.x, self.position.y, 0, 1, 1, self.image:getWidth()/2, self.image:getHeight()/2)
 end

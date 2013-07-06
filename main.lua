@@ -7,6 +7,7 @@ require "entities/Character"
 local level = nil
 
 function love.load()
+	love.graphics.setMode(1280, 720, false, false, 0)
 	level = Level()
 	Character(level, {x=100,y=100})
 end

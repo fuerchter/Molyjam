@@ -46,8 +46,8 @@ function Level:removeEntity(entity)
 	end
 end
 
-function Level:getEntityByType(entType)
-	local foundEntites = {}
+function Level:getEntitiesByType(entType)
+	local foundEntities = {}
 
 	for i = 1, #self.entities do
 		if self.entities[i].type == entType then
@@ -68,7 +68,7 @@ function Level:findEntity(entity)
 end
 
 function Level:getEntitiesInRange(position, radius)
-	local foundEntites = {}
+	local foundEntities = {}
 
 	for i = 1, #self.entities do
 		--and do the pythagoras
@@ -97,10 +97,10 @@ function Level:loadQuotes()
 		text=xmlQuote["@text"]
 		
 		influence={}
-		influence[Opinions.getId("vegetarian")]=xmlQuote["@vegetarian"]
-		influence[Opinions.getId("religious")]=xmlQuote["@religious"]
-		influence[Opinions.getId("hopper")]=xmlQuote["@hopper"]
-		influence[Opinions.getId("hipster")]=xmlQuote["@hipster"]
+		for i=1, #Opinions
+		do
+			influence[i]=xmlQuote["@" .. Opinions.getName(i)]
+		end
 		
 		table.insert(self.quotes, Quote(text, influence))
 	end
@@ -142,7 +142,6 @@ function Level:generateChoices()
 		--seed?
 		table.insert(self.choices, self.quotes[math.random(#self.quotes)])
 	end
-	--love.graphics.setCaption(math.random(#self.quotes) .. " " .. math.random(#self.quotes) .. " " .. math.random(#self.quotes) .. " " .. math.random(#self.quotes))
 end
 
 function Level:generateViewers()
@@ -160,7 +159,7 @@ function Level:generateViewers()
 				opinions[i]=false
 			end
 		end
-		Viewer(self, opinions, {x=100,y=100})
+		Viewer(self, opinions, {x=math.random(600, 1280),y=math.random(720)})
 	end
 end
 
