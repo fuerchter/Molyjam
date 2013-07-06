@@ -10,9 +10,9 @@ end
 function love.update(dt)
 	level:update(dt)
 	--love.graphics.setCaption(viewer.status)
-	love.graphics.setCaption(level.survivalTimer .. " " .. level.choiceTimer .. " " .. tostring(level.survival))
+	--love.graphics.setCaption(level.survivalTimer .. " " .. level.choiceTimer .. " " .. tostring(level.survival))
 end
 
 function love.draw()
-
+	level:draw()
 end

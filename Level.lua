@@ -17,7 +17,7 @@ function Level:_init()
 	self.maxSurvival=5
 	self.survivalTimer=0
 	
-	self.maxChoice=2
+	self.maxChoice=10
 	self.choiceTimer=0
 	self.choicesToGenerate=4
 	
@@ -112,7 +112,7 @@ function Level:setTimers(dt)
 		self.survivalTimer=0
 		self.survival=false
 		self.choiceMade=false
-		self:generateChoice()
+		self:generateChoices()
 	end
 	
 	if(self.choiceTimer>=self.maxChoice)
@@ -133,12 +133,12 @@ function Level:setTimers(dt)
 	end
 end
 
-function Level:generateChoice()
-	self.choice={}
+function Level:generateChoices()
+	self.choices={}
 	for i=1, self.choicesToGenerate
 	do
 		--seed?
-		table.insert(self.choice, self.quotes[math.random(#self.quotes)])
+		table.insert(self.choices, self.quotes[math.random(#self.quotes)])
 	end
 	--love.graphics.setCaption(math.random(#self.quotes) .. " " .. math.random(#self.quotes) .. " " .. math.random(#self.quotes) .. " " .. math.random(#self.quotes))
 end
@@ -168,16 +168,57 @@ function Level:update(dt)
 	if(not self.survival)
 	then
 		--made a choice
-		if(not self.choiceMade and love.keyboard.isDown("return"))
+		if(not self.choiceMade)
 		then
-			for i=1, #self.entities
-			do
-				--automatically choosing first quote for now
-				if self.entities[i].type == "Viewer" then
-					self.entities[i]:calculateStatus(self.choice[1])
-				end
+			local choice=0
+			if(love.keyboard.isDown("up"))
+			then
+				choice=1
 			end
-			selfChoiceMade=true
+			if(love.keyboard.isDown("down"))
+			then
+				choice=2
+			end
+			if(love.keyboard.isDown("left"))
+			then
+				choice=3
+			end
+			if(love.keyboard.isDown("right"))
+			then
+				choice=4
+			end
+			
+			if(choice~=0)
+			then
+				for i=1, #self.entities
+				do
+					--automatically choosing first quote for now
+					if self.entities[i].type == "Viewer" then
+						self.entities[i]:calculateStatus(self.choices[choice])
+					end
+				end
+				self.choiceMade=true
+			end
+		end
+	end
+end
+
+function Level:drawChoices()
+	love.graphics.print(self.choices[1].text .. " " .. self.choices[1].influence[1] .. " " .. self.choices[1].influence[2] .. " " .. self.choices[1].influence[3] .. " " .. self.choices[1].influence[4], 150, 0)
+	love.graphics.print(self.choices[2].text .. " " .. self.choices[2].influence[1] .. " " .. self.choices[2].influence[2] .. " " .. self.choices[2].influence[3] .. " " .. self.choices[2].influence[4], 0, 50)
+	love.graphics.print(self.choices[3].text .. " " .. self.choices[3].influence[1] .. " " .. self.choices[3].influence[2] .. " " .. self.choices[3].influence[3] .. " " .. self.choices[3].influence[4], 150, 50)
+	love.graphics.print(self.choices[4].text .. " " .. self.choices[4].influence[1] .. " " .. self.choices[4].influence[2] .. " " .. self.choices[4].influence[3] .. " " .. self.choices[4].influence[4], 75, 100)
+end
+
+function Level:drawViewers()
+	for i=1, #self.entities
+	do
+		if self.entities[i].type == "Viewer" then
+			love.graphics.print(self.entities[i].status, 300, i*100)
+			love.graphics.print(tostring(self.entities[i].opinions[1]), 300, i*100+15)
+			love.graphics.print(tostring(self.entities[i].opinions[2]), 300, i*100+30)
+			love.graphics.print(tostring(self.entities[i].opinions[3]), 300, i*100+45)
+			love.graphics.print(tostring(self.entities[i].opinions[4]), 300, i*100+60)
 		end
 	end
 end
@@ -185,5 +226,12 @@ end
 function Level:draw()
 	for i = 1, #self.entities do
 		self.entities[i]:draw()
+	end
+	
+	self:drawViewers()
+	
+	if(not self.survival)
+	then
+		self:drawChoices()
 	end
 end
