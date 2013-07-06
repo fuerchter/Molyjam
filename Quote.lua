@@ -13,11 +13,6 @@ function Quote:_init(text, influence)
 	self.text=text
 
 	self.influence=influence
-	--[[self.influence={}
-	self.influence[1]=1
-	self.influence[2]=1
-	self.influence[3]=0
-	self.influence[4]=0]]
 end
 
 function Quote:update(dt)

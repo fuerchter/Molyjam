@@ -24,16 +24,11 @@ function Viewer:_init(opinions)
 	self.status=1
 
 	self.opinions=opinions
-	--[[self.opinions={}
-	self.opinions[1]=true
-	self.opinions[2]=true
-	self.opinions[3]=false
-	self.opinions[4]=false]]
 end
 
-function Viewer:calculateStatus(quote)	
+function Viewer:calculateStatus(quote)
 	for index = 1, #self.opinions do
-		if(self.opinions[index] == true)
+		if(self.opinions[index])
 		then
 			self.status=self.status+quote.influence[index]
 		end
