@@ -191,7 +191,14 @@ function Level:generateViewers()
 			end
 		end
 		--Viewer size???
-		Viewer(self, opinions, {x=math.random(self.stageRect.width+27, self.windowSize.width-27),y=math.random(42, self.stageRect.height-42)})
+		local test_x = math.random(self.stageRect.width+27, self.windowSize.width-27)
+		local test_y = math.random(42, self.stageRect.height-42)
+		local pos = {x = test_x, y = test_y}
+		if #self:getEntitiesInRange(pos, 50) == 0 then
+			Viewer(self, opinions, pos)
+		else
+			i = i - 1
+		end
 	end
 end
 
