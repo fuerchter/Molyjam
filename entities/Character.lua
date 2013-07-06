@@ -18,6 +18,10 @@ function Character:_init(level, position)
 	self.image=love.graphics.newImage("assets/viewer.png")
 end
 
+function Character:die()
+	self.level:removeEntity(self)
+end
+
 function Character:update(dt)
 	local speed = 40
 	local leftClip = 0

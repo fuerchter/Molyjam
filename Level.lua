@@ -25,6 +25,24 @@ function Level:_init(windowSize)
 	self.survival=true
 	self.choiceMade=false
 	
+	self.gameFinished = false
+	
+	self.highscore = 0
+	
+	self.saveFile = love.filesystem.newFile("highscore.txt")
+	if not love.filesystem.isFile("highscore.txt") then
+		self.saveFile:open("w")
+		self.saveFile:write(0)
+		self.saveFile:close()
+	else
+		self.saveFile:open("r")
+		local contents, size = self.saveFile:read()
+		if size > 0 then
+			self.highscore = tonumber(contents)
+		end
+		self.saveFile:close()
+	end
+	
 	--general timer
 	self.timer=0
 	
@@ -45,6 +63,12 @@ function Level:registerEntity(entity)
 end
 
 function Level:removeEntity(entity)
+
+	--character has died, finish game
+	if entity.type == "Character" then
+		self:finishGame()
+	end
+
 	pos = self:findEntity(entity)
 	if pos ~= -1 then
 		table.remove(self.entities, pos)
@@ -87,6 +111,17 @@ function Level:getEntitiesInRange(position, radius)
 	end
 	
 	return foundEntities
+end
+
+function Level:finishGame()
+	self.gameFinished = true
+	
+	--save score
+	if self.highscore < self.timer then
+		self.saveFile:open("w")
+		self.saveFile:write(self.timer)
+		self.saveFile:close()
+	end
 end
 
 --gets all the quotes with their text and stats from the .xml file
@@ -207,6 +242,10 @@ function Level:generateViewers()
 end
 
 function Level:update(dt)
+	if self.gameFinished then
+		return
+	end
+
 	self:setTimers(dt)
 	
 	if(not self.survival)
@@ -247,7 +286,9 @@ function Level:update(dt)
 	end
 	
 	for i = 1, #self.entities do
-		self.entities[i]:update(dt)
+		if self.entities[i] ~= nil then
+			self.entities[i]:update(dt)
+		end
 	end
 end
 
