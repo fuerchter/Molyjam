@@ -107,6 +107,8 @@ function Level:loadQuotes()
 end
 
 function Level:setTimers(dt)
+	self.timer = self.timer + dt
+
 	if(self.survivalTimer>=self.maxSurvival)
 	then
 		self.survivalTimer=0
@@ -200,6 +202,10 @@ function Level:update(dt)
 				self.choiceMade=true
 			end
 		end
+	end
+	
+	for i = 1, #self.entities do
+		self.entities[i]:update(dt)
 	end
 end
 

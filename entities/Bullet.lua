@@ -1,3 +1,5 @@
+require "../Entity"
+
 Bullet = {}
 Bullet.__index = Bullet
 
