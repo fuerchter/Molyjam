@@ -15,7 +15,7 @@ setmetatable(Character, {
 function Character:_init(level, position)
 	Entity._init(self, level, "Character", position)
 	
-	self.hitboxOffset = 14
+	self.hitboxOffset = 18
 	self.movementTimer = 0
 	
 	self.image=love.graphics.newImage("assets/character1.png")
