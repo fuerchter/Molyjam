@@ -7,7 +7,7 @@ require "entities/Character"
 local level = nil
 
 function love.load()
-	local name="Molyjam"
+	local name="Listen and learn"
 	love.filesystem.setIdentity(name)
 	love.graphics.setCaption(name)
 	windowSize={width=1280, height=720}
