@@ -23,8 +23,8 @@ function Level:_init(windowSize)
 	self.choiceTimer=0
 	self.choiceTimerFloored=0
 	self.choiceTimerFlooredPrevious=0
-	self.choiceTimerSound=love.audio.newSource("assets/timer.wav", "stream")
-	self.noChoiceSound=love.audio.newSource("assets/buzzer.wav", "stream")
+	self.choiceTimerSound=love.audio.newSource("assets/timer.wav", "static")
+	self.noChoiceSound=love.audio.newSource("assets/buzzer.wav", "static")
 	
 	--general timer
 	self.timer=0
@@ -344,7 +344,7 @@ function Level:drawChoices()
 	do
 		if(i==self.choice)
 		then
-			love.graphics.setColor(255, 0, 0, 255)
+			love.graphics.setColor(89, 63, 158, 255)
 			love.graphics.setFont(love.graphics.newFont((self.windowSize.height - self.stageRect.height) / 4.5))
 		else
 			love.graphics.setFont(love.graphics.newFont((self.windowSize.height - self.stageRect.height) / 5))
@@ -360,14 +360,13 @@ function Level:drawChoices()
 end
 
 function Level:drawTimers()
-	love.graphics.setColor(0, 0, 0, 255)
-	if(self.survival)
+	if(not self.survival)
 	then
-		love.graphics.print(math.floor(self.maxSurvival-self.survivalTimer) .. " seconds left. Survive!", 700, self.stageRect.height)
-	else
-		love.graphics.print(math.floor(self.maxChoice-self.choiceTimer) .. " seconds left. Pick a statement!", 700, self.stageRect.height)
+		love.graphics.setColor(89, 63, 158, 255)
+		love.graphics.print(math.floor(self.maxChoice-self.choiceTimer) .. " seconds left. Pick a statement!", 850, self.stageRect.height+(self.windowSize.height - self.stageRect.height) / 4)
 	end
-	love.graphics.print(math.floor(self.timer) .. " seconds survived! Highscore: " .. math.floor(self.highscore), 700, self.stageRect.height+40)
+	love.graphics.setColor(0, 0, 0, 255)
+	love.graphics.print(math.floor(self.timer) .. " seconds survived! Highscore: " .. math.floor(self.highscore), 850, self.stageRect.height)
 	love.graphics.setColor(255, 255, 255, 255)
 end
 

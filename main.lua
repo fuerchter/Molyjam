@@ -11,6 +11,9 @@ function love.load()
 	love.graphics.setMode(windowSize.width, windowSize.height, false, false, 0)
 	level = Level(windowSize)
 	background=love.graphics.newImage("assets/background.png")
+	funkybynatur=love.audio.newSource("assets/funkybynatur.mp3")
+	funkybynatur:setLooping(true)
+	funkybynatur:play()
 end
 
 function love.update(dt)
