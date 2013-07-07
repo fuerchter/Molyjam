@@ -275,17 +275,20 @@ function Level:generateViewers(minViewers, maxViewers)
 	--generating a random amount of viewers with random opinions
 	for i=1, math.random(minViewers, maxViewers)
 	do
-		opinions={}
-		for i=1, #Opinions
-		do
-			rand=math.random()
-			if(rand>=0.5)
-			then
-				opinions[i]=true
-			else
-				opinions[i]=false
-			end
+		opinions={[1] = false, [2] = false, [3] = false, [4] = false}
+		
+		local rand = math.random()
+		
+		if rand < 0.25 then
+			opinions[1] = true
+		elseif rand < 0.5 then
+			opinions[2] = true
+		elseif rand < 0.75 then
+			opinions[3] = true
+		else
+			opinions[4] = true
 		end
+		
 		--Viewer size???
 		local test_x = math.random(self.stageRect.width+27, self.windowSize.width-27)
 		local test_y = math.random(42, self.stageRect.height-42)
