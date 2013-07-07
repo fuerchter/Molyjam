@@ -61,7 +61,20 @@ function Level:_init(windowSize)
 end
 
 function Level:registerEntity(entity)
-	table.insert(self.entities, entity)
+	--fixes rendering of audience
+	if entity.type == "Viewer" then
+		for index = 1, #self.entities do
+			if self.entities[index].type == "Viewer" then
+				if self.entities[index].position.y < entity.position.y then
+					table.insert(self.entities, index + 1, entity)
+					return
+				end
+			end
+		end
+		table.insert(self.entities, entity)
+	else
+		table.insert(self.entities, entity)
+	end
 end
 
 function Level:removeEntity(entity)

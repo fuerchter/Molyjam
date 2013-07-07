@@ -13,10 +13,9 @@ setmetatable(Entity, {
 function Entity:_init(level, entType, position)
 	self.position = position
 	self.type = entType
+	self.level = level
 	
 	level:registerEntity(self)
-	
-	self.level = level
 end
 
 --functions that every entity need
