@@ -31,7 +31,7 @@ function Viewer:_init(level, opinions, position)
 	
 	for i=1, #Opinions do
 		
-		if counter == 2 then
+		if counter == 1 then
 			opinions[i] = false
 		end
 	
