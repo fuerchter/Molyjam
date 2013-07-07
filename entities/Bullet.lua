@@ -16,9 +16,10 @@ setmetatable(Bullet, {
 function Bullet:_init(level, position, velocity)
 	Entity._init(self, level, "Bullet", position)
 	
+	self.hitboxOffset = 2
 	self.velocity = velocity
 	self.image=love.graphics.newImage("assets/bullet.png")
-	self:setHitbox(Hitbox({x = position.x, y = position.y}, self.image:getWidth(), self.image:getHeight()))
+	self:setHitbox(Hitbox({x = position.x, y = position.y}, self.image:getWidth() - self.hitboxOffset, self.image:getHeight() - self.hitboxOffset))
 end
 
 function Bullet:update(dt)
@@ -31,7 +32,7 @@ function Bullet:update(dt)
 	end
 	
 	local entitiesCollided = self.level:getEntitiesByCollision(self)
-	self:updateHitbox(-self.image:getWidth()/2, -self.image:getHeight()/2)
+	self:updateHitbox(-(self.image:getWidth()-self.hitboxOffset)/2, -(self.image:getHeight()-self.hitboxOffset)/2)
 	
 	
 	

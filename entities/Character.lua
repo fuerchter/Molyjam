@@ -15,8 +15,10 @@ setmetatable(Character, {
 function Character:_init(level, position)
 	Entity._init(self, level, "Character", position)
 	
+	self.hitboxOffset = 14
+	
 	self.image=love.graphics.newImage("assets/character.png")
-	self:setHitbox(Hitbox({x = position.x, y = position.y}, self.image:getWidth(), self.image:getHeight()))
+	self:setHitbox(Hitbox({x = position.x, y = position.y}, self.image:getWidth() - self.hitboxOffset, self.image:getHeight() - self.hitboxOffset))
 end
 
 function Character:die()
@@ -68,7 +70,7 @@ function Character:update(dt)
 		self.position.y = bottomClip-self.image:getHeight()/2
 	end
 	
-	self:updateHitbox(-self.image:getWidth()/2, -self.image:getHeight()/2)
+	self:updateHitbox(-(self.image:getWidth()-self.hitboxOffset)/2, -(self.image:getHeight()-self.hitboxOffset)/2)
 end
 
 function Character:draw()
