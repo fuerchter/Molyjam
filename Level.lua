@@ -66,6 +66,9 @@ function Level:_init(windowSize)
 	self.viewerTimer=0
 	
 	self.character=Character(self, {x=100,y=100})
+	
+	self.smallFont=love.graphics.newFont((self.windowSize.height - self.stageRect.height) / 5)
+	self.bigFont=love.graphics.newFont((self.windowSize.height - self.stageRect.height) / 4.5)
 end
 
 function Level:registerEntity(entity)
@@ -348,16 +351,16 @@ function Level:drawChoices()
 		if(i==self.choice)
 		then
 			love.graphics.setColor(89, 63, 158, 255)
-			love.graphics.setFont(love.graphics.newFont((self.windowSize.height - self.stageRect.height) / 4.5))
+			love.graphics.setFont(self.bigFont)
 		else
-			love.graphics.setFont(love.graphics.newFont((self.windowSize.height - self.stageRect.height) / 5))
+			love.graphics.setFont(self.smallFont)
 			love.graphics.setColor(0, 0, 0, 255)
 		end
 		
 		love.graphics.print(self.choiceButtons[i] .. ": " .. self.choices[i].text, 30, self.stageRect.height+(i-1)*((self.windowSize.height - self.stageRect.height) / 4))
 		--love.graphics.print(self.choiceButtons[i] .. ": " .. self.choices[i].text .. " " .. self.choices[i].influence[1] .. " " .. self.choices[i].influence[2] .. " " .. self.choices[i].influence[3] .. " " .. self.choices[i].influence[4], 0, self.stageRect.height+(i-1)*15)
 		love.graphics.setColor(255, 255, 255, 255)
-		love.graphics.setFont(love.graphics.newFont((self.windowSize.height - self.stageRect.height) / 5))
+		love.graphics.setFont(self.smallFont)
 	end
 	
 end
