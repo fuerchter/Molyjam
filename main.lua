@@ -7,9 +7,10 @@ require "entities/Character"
 local level = nil
 
 function love.load()
-	windowSize={width=1280, height=720}
+	local windowSize={width=1280, height=720}
 	love.graphics.setMode(windowSize.width, windowSize.height, false, false, 0)
 	level = Level(windowSize)
+	background=love.graphics.newImage("assets/background.png")
 end
 
 function love.update(dt)
@@ -23,5 +24,6 @@ function love.update(dt)
 end
 
 function love.draw()
+	love.graphics.draw(background)
 	level:draw()
 end

@@ -55,7 +55,7 @@ function Level:_init(windowSize)
 	self.maxViewers=10
 	
 	self.windowSize=windowSize
-	self.stageRect={x=0, y=0, width=251, height=self.windowSize.height-154}
+	self.stageRect={x=0, y=0, width=190, height=self.windowSize.height-112}
 	self:generateViewers()
 	
 	self.character=Character(self, {x=100,y=100})
@@ -319,14 +319,18 @@ function Level:drawChoices()
 		if(i==self.choice)
 		then
 			love.graphics.setColor(255, 0, 0, 255)
+		else
+			love.graphics.setColor(0, 0, 0, 255)
 		end
-		love.graphics.print(self.choiceButtons[i] .. ": " .. self.choices[i].text .. " " .. self.choices[i].influence[1] .. " " .. self.choices[i].influence[2] .. " " .. self.choices[i].influence[3] .. " " .. self.choices[i].influence[4], 0, self.stageRect.height+(i-1)*15)
-		love.graphics.reset()
+		love.graphics.print(self.choiceButtons[i] .. ": " .. self.choices[i].text, 0, self.stageRect.height+(i-1)*15)
+		--love.graphics.print(self.choiceButtons[i] .. ": " .. self.choices[i].text .. " " .. self.choices[i].influence[1] .. " " .. self.choices[i].influence[2] .. " " .. self.choices[i].influence[3] .. " " .. self.choices[i].influence[4], 0, self.stageRect.height+(i-1)*15)
+		love.graphics.setColor(255, 255, 255, 255)
 	end
 	
 end
 
 function Level:drawTimers()
+	love.graphics.setColor(0, 0, 0, 255)
 	if(self.survival)
 	then
 		love.graphics.print(math.floor(self.maxSurvival-self.survivalTimer) .. " seconds left. Survive!", 0, self.stageRect.height)
@@ -334,6 +338,7 @@ function Level:drawTimers()
 		love.graphics.print(math.floor(self.maxChoice-self.choiceTimer) .. " seconds left. Pick a statement!", 400, self.stageRect.height)
 	end
 	love.graphics.print(math.floor(self.timer) .. " seconds survived! Highscore: " .. math.floor(self.highscore), 400, self.stageRect.height+15)
+	love.graphics.setColor(255, 255, 255, 255)
 end
 
 function Level:drawViewers()
