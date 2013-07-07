@@ -307,6 +307,7 @@ function Level:drawTimers()
 	else
 		love.graphics.print(math.floor(self.maxChoice-self.choiceTimer) .. " seconds left. Pick a statement!", 400, self.stageRect.height)
 	end
+	love.graphics.print(math.floor(self.timer) .. " seconds survived! Highscore: " .. math.floor(self.highscore), 400, self.stageRect.height+15)
 end
 
 function Level:drawViewers()
