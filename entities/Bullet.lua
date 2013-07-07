@@ -13,12 +13,12 @@ setmetatable(Bullet, {
 })
 
 --velocity has to be given as vector {x=***,y=***}
-function Bullet:_init(level, position, velocity, size)
+function Bullet:_init(level, position, velocity)
 	Entity._init(self, level, "Bullet", position)
 	
-	self:setHitbox(Hitbox({x = position.x, y = position.y}, size * 2, size * 2))
 	self.velocity = velocity
-	self.size = size
+	self.image=love.graphics.newImage("assets/bullet.png")
+	self:setHitbox(Hitbox({x = position.x, y = position.y}, self.image:getWidth(), self.image:getHeight()))
 end
 
 function Bullet:update(dt)
@@ -30,9 +30,10 @@ function Bullet:update(dt)
 		return
 	end
 	
-	self:updateHitbox(-self.size, -self.size)
-	
 	local entitiesCollided = self.level:getEntitiesByCollision(self)
+	self:updateHitbox(-self.image:getWidth()/2, -self.image:getHeight()/2)
+	
+	
 	
 	for index = 1, #entitiesCollided do
 		if entitiesCollided[index].type == "Character" then
@@ -43,6 +44,7 @@ function Bullet:update(dt)
 end
 
 function Bullet:draw()
-	love.graphics.setColor(255, 255, 255, 255)
-	love.graphics.circle("fill", self.position.x, self.position.y, self.size, segments)
+	love.graphics.draw(self.image, self.position.x, self.position.y, 0, 1, 1, self.image:getWidth()/2, self.image:getHeight()/2)
+	--[[love.graphics.setColor(255, 255, 255, 255)
+	love.graphics.circle("fill", self.position.x, self.position.y, self.size, segments)]]
 end

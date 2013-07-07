@@ -82,7 +82,7 @@ function Viewer:update(dt)
 			
 			local length_x = (x / length) * speed
 			
-			Bullet(self.level, {x=self.position.x, y=self.position.y}, {x = length_x, y = length_y}, 4)
+			Bullet(self.level, {x=self.position.x, y=self.position.y}, {x = length_x, y = length_y})
 		end
 	elseif self.status == 3 then
 		if self.bulletTime > 2 then
@@ -104,7 +104,7 @@ function Viewer:update(dt)
 				
 				local length_x = (x / length) * speed
 				
-				Bullet(self.level, {x=self.position.x, y=self.position.y}, {x = length_x, y = length_y}, 4)
+				Bullet(self.level, {x=self.position.x, y=self.position.y}, {x = length_x, y = length_y})
 			end
 		end
 	end
