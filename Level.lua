@@ -345,12 +345,16 @@ function Level:drawChoices()
 		if(i==self.choice)
 		then
 			love.graphics.setColor(255, 0, 0, 255)
+			love.graphics.setFont(love.graphics.newFont((self.windowSize.height - self.stageRect.height) / 4.5))
 		else
+			love.graphics.setFont(love.graphics.newFont((self.windowSize.height - self.stageRect.height) / 5))
 			love.graphics.setColor(0, 0, 0, 255)
 		end
-		love.graphics.print(self.choiceButtons[i] .. ": " .. self.choices[i].text, 0, self.stageRect.height+(i-1)*15)
+		
+		love.graphics.print(self.choiceButtons[i] .. ": " .. self.choices[i].text, 30, self.stageRect.height+(i-1)*((self.windowSize.height - self.stageRect.height) / 4))
 		--love.graphics.print(self.choiceButtons[i] .. ": " .. self.choices[i].text .. " " .. self.choices[i].influence[1] .. " " .. self.choices[i].influence[2] .. " " .. self.choices[i].influence[3] .. " " .. self.choices[i].influence[4], 0, self.stageRect.height+(i-1)*15)
 		love.graphics.setColor(255, 255, 255, 255)
+		love.graphics.setFont(love.graphics.newFont((self.windowSize.height - self.stageRect.height) / 5))
 	end
 	
 end
@@ -359,11 +363,11 @@ function Level:drawTimers()
 	love.graphics.setColor(0, 0, 0, 255)
 	if(self.survival)
 	then
-		love.graphics.print(math.floor(self.maxSurvival-self.survivalTimer) .. " seconds left. Survive!", 0, self.stageRect.height)
+		love.graphics.print(math.floor(self.maxSurvival-self.survivalTimer) .. " seconds left. Survive!", 700, self.stageRect.height)
 	else
-		love.graphics.print(math.floor(self.maxChoice-self.choiceTimer) .. " seconds left. Pick a statement!", 400, self.stageRect.height)
+		love.graphics.print(math.floor(self.maxChoice-self.choiceTimer) .. " seconds left. Pick a statement!", 700, self.stageRect.height)
 	end
-	love.graphics.print(math.floor(self.timer) .. " seconds survived! Highscore: " .. math.floor(self.highscore), 400, self.stageRect.height+15)
+	love.graphics.print(math.floor(self.timer) .. " seconds survived! Highscore: " .. math.floor(self.highscore), 700, self.stageRect.height+40)
 	love.graphics.setColor(255, 255, 255, 255)
 end
 
