@@ -15,12 +15,15 @@ setmetatable(Level, {
 
 function Level:_init(windowSize)
 	--how long the survival phase lasts (in seconds)
-	self.maxSurvival=1
+	self.maxSurvival=5
 	self.survivalTimer=0
 	
 	--how long the choice phase lasts (in seconds)
 	self.maxChoice=10
 	self.choiceTimer=0
+	
+	--general timer
+	self.timer=0
 	
 	self.survival=true
 	self.choice=0
@@ -42,9 +45,6 @@ function Level:_init(windowSize)
 		end
 		self.saveFile:close()
 	end
-	
-	--general timer
-	self.timer=0
 	
 	self.entities = {}
 	
@@ -298,6 +298,15 @@ function Level:drawChoices()
 	
 end
 
+function Level:drawTimers()
+	if(self.survival)
+	then
+		love.graphics.print(math.floor(self.maxSurvival-self.survivalTimer) .. " seconds left. Survive!", 0, self.stageRect.height)
+	else
+		love.graphics.print(math.floor(self.maxChoice-self.choiceTimer) .. " seconds left. Pick a statement!", 400, self.stageRect.height)
+	end
+end
+
 function Level:drawViewers()
 	for i=1, #self.entities
 	do
@@ -322,4 +331,5 @@ function Level:draw()
 	then
 		self:drawChoices()
 	end
+	self:drawTimers()
 end
