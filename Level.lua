@@ -23,7 +23,7 @@ function Level:_init(windowSize)
 	self.choiceTimer=0
 	
 	self.survival=true
-	self.choiceMade=false
+	self.choice=0
 	
 	self.gameFinished = false
 	
@@ -161,14 +161,22 @@ function Level:setTimers(dt)
 	
 	if(self.choiceTimer>=self.maxChoice)
 	then
-		if(not self.choiceMade)
+		if(self.choice~=0)
 		then
+			for i=1, #self.entities
+			do
+				if self.entities[i].type == "Viewer" then
+					self.entities[i]:calculateStatus(self.choices[self.choice])
+				end
+			end
+		else
 			for i=1, #self.entities do
 				if self.entities[i].type == "Viewer" then
 					self.entities[i]:calculateStatus(Quote("INVALID", {1,1,1,1}))
 				end
 			end
 		end
+		self.choice=0
 		self.choiceTimer=0
 		self.survival=true
 	end
@@ -251,39 +259,24 @@ function Level:update(dt)
 	if(not self.survival)
 	then
 		--player has to make a choice on which quote to say
-		if(not self.choiceMade)
+		if(love.keyboard.isDown("up"))
 		then
-			local choice=0
-			if(love.keyboard.isDown("up"))
-			then
-				choice=1
-			end
-			if(love.keyboard.isDown("down"))
-			then
-				choice=2
-			end
-			if(love.keyboard.isDown("left"))
-			then
-				choice=3
-			end
-			if(love.keyboard.isDown("right"))
-			then
-				choice=4
-			end
-			
-			--a choice has been made, calculate effect on viewers
-			if(choice~=0)
-			then
-				for i=1, #self.entities
-				do
-					if self.entities[i].type == "Viewer" then
-						self.entities[i]:calculateStatus(self.choices[choice])
-					end
-				end
-				self.choiceMade=true
-			end
+			self.choice=1
+		end
+		if(love.keyboard.isDown("down"))
+		then
+			self.choice=2
+		end
+		if(love.keyboard.isDown("left"))
+		then
+			self.choice=3			
+		end
+		if(love.keyboard.isDown("right"))
+		then
+			self.choice=4
 		end
 	end
+	love.graphics.setCaption(self.choice)
 	
 	for i = 1, #self.entities do
 		if self.entities[i] ~= nil then
@@ -295,7 +288,12 @@ end
 function Level:drawChoices()
 	for i=1, #self.choices
 	do
+		if(i==self.choice)
+		then
+			love.graphics.setColor(255, 0, 0, 255)
+		end
 		love.graphics.print(self.choices[i].text .. " " .. self.choices[i].influence[1] .. " " .. self.choices[i].influence[2] .. " " .. self.choices[i].influence[3] .. " " .. self.choices[i].influence[4], 0, self.stageRect.height+(i-1)*15)
+		love.graphics.reset()
 	end
 	
 end
