@@ -29,18 +29,30 @@ function Character:update(dt)
 	local rightClip = self.level.stageRect.width
 	local bottomClip = self.level.stageRect.height
 
+	local velocity={x=0, y=0}
+	
 	if love.keyboard.isDown("w") then
-		self.position.y = self.position.y - speed * dt
+		velocity.y=velocity.y-1
 	end
 	if love.keyboard.isDown("s") then
-		self.position.y = self.position.y + speed * dt
+		velocity.y=velocity.y+1
 	end
 	if love.keyboard.isDown("a") then
-		self.position.x = self.position.x - speed * dt
+		velocity.x=velocity.x-1
 	end
 	if love.keyboard.isDown("d") then
-		self.position.x = self.position.x + speed * dt
+		velocity.x=velocity.x+1
 	end
+	
+	local length=math.sqrt(math.pow(velocity.x, 2)+math.pow(velocity.y, 2))
+	if(length~=0)
+	then
+		--normalize velocity and multiply it by the character speed
+		velocity.x=velocity.x/length*speed*dt
+		velocity.y=velocity.y/length*speed*dt
+	end
+	self.position.x=self.position.x+velocity.x
+	self.position.y=self.position.y+velocity.y
 	
 	if self.position.x-self.image:getWidth()/2 < leftClip then
 		self.position.x = leftClip+self.image:getWidth()/2
