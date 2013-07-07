@@ -27,6 +27,7 @@ function Level:_init(windowSize)
 	
 	self.survival=true
 	self.choice=0
+	self.choiceButtons = { [1] = "h", [2] = "j", [3] = "k", [4] = "l"}
 	
 	self.gameFinished = false
 	
@@ -286,19 +287,19 @@ function Level:update(dt)
 	if(not self.survival)
 	then
 		--player has to make a choice on which quote to say
-		if(love.keyboard.isDown("up"))
+		if(love.keyboard.isDown(self.choiceButtons[1]))
 		then
 			self.choice=1
 		end
-		if(love.keyboard.isDown("down"))
+		if(love.keyboard.isDown(self.choiceButtons[2]))
 		then
 			self.choice=2
 		end
-		if(love.keyboard.isDown("left"))
+		if(love.keyboard.isDown(self.choiceButtons[3]))
 		then
 			self.choice=3			
 		end
-		if(love.keyboard.isDown("right"))
+		if(love.keyboard.isDown(self.choiceButtons[4]))
 		then
 			self.choice=4
 		end
@@ -319,7 +320,7 @@ function Level:drawChoices()
 		then
 			love.graphics.setColor(255, 0, 0, 255)
 		end
-		love.graphics.print(self.choices[i].text .. " " .. self.choices[i].influence[1] .. " " .. self.choices[i].influence[2] .. " " .. self.choices[i].influence[3] .. " " .. self.choices[i].influence[4], 0, self.stageRect.height+(i-1)*15)
+		love.graphics.print(self.choiceButtons[i] .. ": " .. self.choices[i].text .. " " .. self.choices[i].influence[1] .. " " .. self.choices[i].influence[2] .. " " .. self.choices[i].influence[3] .. " " .. self.choices[i].influence[4], 0, self.stageRect.height+(i-1)*15)
 		love.graphics.reset()
 	end
 	
@@ -368,7 +369,7 @@ function Level:draw()
 		self.entities[i]:draw()
 	end
 	
-	self:drawDebug()
+	--self:drawDebug()
 	
 	if(not self.survival)
 	then
