@@ -26,7 +26,7 @@ function Character:die()
 end
 
 function Character:update(dt)
-	local speed = 40
+	local speed = 50
 	local leftClip = 0
 	local topClip = 0
 	local rightClip = self.level.stageRect.width

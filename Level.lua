@@ -15,8 +15,8 @@ setmetatable(Level, {
 
 function Level:_init(windowSize)
 	--how long the survival phase lasts (in seconds)
-	self.maxSurvival=5
-	self.survivalTimer=0
+	self.maxSurvival=20
+	self.survivalTimer=self.maxSurvival
 	
 	--how long the choice phase lasts (in seconds)
 	self.maxChoice=10
@@ -51,8 +51,8 @@ function Level:_init(windowSize)
 	
 	self:loadQuotes()
 	
-	self.minViewers=5
-	self.maxViewers=10
+	self.minViewers=15
+	self.maxViewers=20
 	
 	self.windowSize=windowSize
 	self.stageRect={x=0, y=0, width=190, height=self.windowSize.height-112}

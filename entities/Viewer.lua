@@ -79,10 +79,10 @@ function Viewer:update(dt)
 	self.bulletTime = self.bulletTime + dt
 
 	if self.status == 2 then
-		if self.bulletTime > 2 then
+		if self.bulletTime > 2.5 then
 			self.bulletTime = 0
 			
-			local speed = -30
+			local speed = -60
 			local y = math.random(1, 10)
 			local x = math.random(1, 10)
 			local length = math.sqrt(x*x + y*y)
@@ -104,7 +104,7 @@ function Viewer:update(dt)
 			local characters = self.level:getEntitiesByType("Character")
 			
 			if #characters == 1 then
-				local speed = -50
+				local speed = -90
 				local y = math.abs(characters[1].position.y - self.position.y)
 				local x = math.abs(characters[1].position.x - self.position.x)
 				local length = math.sqrt(x*x + y*y)
