@@ -21,6 +21,9 @@ function Level:_init(windowSize)
 	--how long the choice phase lasts (in seconds)
 	self.maxChoice=10
 	self.choiceTimer=0
+	self.choiceTimerFloored=0
+	self.choiceTimerFlooredPrevious=0
+	self.choiceTimerSound=love.audio.newSource("assets/timer.wav", "stream")
 	
 	--general timer
 	self.timer=0
@@ -56,7 +59,9 @@ function Level:_init(windowSize)
 	
 	self.windowSize=windowSize
 	self.stageRect={x=0, y=0, width=190, height=self.windowSize.height-112}
-	self:generateViewers()
+	self:generateViewers(self.minViewers, self.maxViewers)
+	self.maxViewerTimer=15
+	self.viewerTimer=0
 	
 	self.character=Character(self, {x=100,y=100})
 end
@@ -206,6 +211,8 @@ function Level:setTimers(dt)
 		end
 		self.choice=0
 		self.choiceTimer=0
+		self.choiceTimerFloored=0
+		self.choiceTimerFlooredPrevious=0
 		self.survival=true
 	end
 	
@@ -214,6 +221,20 @@ function Level:setTimers(dt)
 		self.survivalTimer=self.survivalTimer+dt
 	else
 		self.choiceTimer=self.choiceTimer+dt
+		self.choiceTimerFloored=math.floor(self.choiceTimer)
+		if(self.choiceTimerFloored>self.choiceTimerFlooredPrevious)
+		then
+			love.audio.play(self.choiceTimerSound)
+			self.choiceTimerSound:rewind()
+			self.choiceTimerFlooredPrevious=self.choiceTimerFloored
+		end
+	end
+	
+	self.viewerTimer=self.viewerTimer+dt
+	if(self.viewerTimer>=self.maxViewerTimer)
+	then
+		self:generateViewers(5, 5)
+		self.viewerTimer=0
 	end
 end
 
@@ -250,9 +271,9 @@ function Level:generateChoices()
 	end
 end
 
-function Level:generateViewers()
+function Level:generateViewers(minViewers, maxViewers)
 	--generating a random amount of viewers with random opinions
-	for i=1, math.random(self.minViewers, self.maxViewers)
+	for i=1, math.random(minViewers, maxViewers)
 	do
 		opinions={}
 		for i=1, #Opinions
