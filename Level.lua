@@ -24,6 +24,7 @@ function Level:_init(windowSize)
 	self.choiceTimerFloored=0
 	self.choiceTimerFlooredPrevious=0
 	self.choiceTimerSound=love.audio.newSource("assets/timer.wav", "stream")
+	self.noChoiceSound=love.audio.newSource("assets/buzzer.wav", "stream")
 	
 	--general timer
 	self.timer=0
@@ -203,6 +204,7 @@ function Level:setTimers(dt)
 				end
 			end
 		else
+			love.audio.play(self.noChoiceSound)
 			for i=1, #self.entities do
 				if self.entities[i].type == "Viewer" then
 					self.entities[i]:calculateStatus(Quote("INVALID", {1,1,1,1}))

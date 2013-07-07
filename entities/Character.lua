@@ -18,7 +18,8 @@ function Character:_init(level, position)
 	self.hitboxOffset = 14
 	self.movementTimer = 0
 	
-	self.image=love.graphics.newImage("assets/character.png")
+	self.image=love.graphics.newImage("assets/character1.png")
+	self.image2=love.graphics.newImage("assets/character2.png")
 	self:setHitbox(Hitbox({x = position.x, y = position.y}, self.image:getWidth() - self.hitboxOffset, self.image:getHeight() - self.hitboxOffset))
 end
 
@@ -89,8 +90,8 @@ end
 
 function Character:draw()
 	if self.movementTimer < 0.5 then
-		love.graphics.draw(self.image, self.position.x, self.position.y, 0, -1, 1, self.image:getWidth()/2, self.image:getHeight()/2)
-	else
 		love.graphics.draw(self.image, self.position.x, self.position.y, 0, 1, 1, self.image:getWidth()/2, self.image:getHeight()/2)
+	else
+		love.graphics.draw(self.image2, self.position.x, self.position.y, 0, 1, 1, self.image:getWidth()/2, self.image:getHeight()/2)
 	end
 end
