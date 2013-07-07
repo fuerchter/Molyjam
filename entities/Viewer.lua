@@ -23,10 +23,10 @@ function Viewer:_init(level, opinions, position)
 	self.statusList[3]="amok"
 	
 	self.status=1
+	self.oldStatus=0
 	
 	self.bulletTime = 0
 	
-	--make sure there are only two opinions
 	local counter = 0
 	
 	for i=1, #Opinions do
@@ -42,7 +42,7 @@ function Viewer:_init(level, opinions, position)
 
 	self.opinions=opinions
 	
-	self.image=love.graphics.newImage("assets/viewer.png")
+	self.image=love.graphics.newImage("assets/vegetarian1.png")
 end
 
 function Viewer:calculateStatus(quote)
@@ -63,6 +63,19 @@ function Viewer:calculateStatus(quote)
 end
 
 function Viewer:update(dt)
+	--updates image to current status
+	if(self.oldStatus~=self.status)
+	then
+		for i=1, #self.opinions
+		do
+			if(self.opinions[i])
+			then
+				self.image=love.graphics.newImage("assets/" .. Opinions.getName(i) .. self.status .. ".png")
+			end
+		end
+		self.oldStatus=self.status
+	end
+	
 	self.bulletTime = self.bulletTime + dt
 
 	if self.status == 2 then

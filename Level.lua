@@ -303,7 +303,7 @@ function Level:update(dt)
 			self.choice=4
 		end
 	end
-	love.graphics.setCaption(self.choice)
+	--love.graphics.setCaption(self.choice)
 	
 	for i = 1, #self.entities do
 		if self.entities[i] ~= nil then
