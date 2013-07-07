@@ -128,6 +128,18 @@ function Level:getEntitiesInRange(position, radius)
 	return foundEntities
 end
 
+function Level:getEntitiesByCollision(entity)
+	local foundEntities = {}
+
+	for i = 1, #self.entities do
+		if self.entities[i].hitbox:doesOverlapWith(entity.hitbox) then
+			table.insert(foundEntities, self.entities[i])
+		end
+	end
+	
+	return foundEntities
+end
+
 function Level:finishGame()
 	self.gameFinished = true
 	
@@ -336,12 +348,27 @@ function Level:drawViewers()
 	end
 end
 
+function Level:drawDebug()
+	self:drawViewers()
+
+	for i = 1, #self.entities do
+		if self.entities[i].type == "Bullet" or self.entities[i].type == "Character" then
+			love.graphics.setColor(255, 0, 0, 255)
+			love.graphics.rectangle("line", self.entities[i].hitbox.position.x, 
+									self.entities[i].hitbox.position.y, 
+									self.entities[i].hitbox.width,
+									self.entities[i].hitbox.height)
+			love.graphics.setColor(255, 255, 255, 255)
+		end
+	end
+end
+
 function Level:draw()
 	for i = 1, #self.entities do
 		self.entities[i]:draw()
 	end
 	
-	self:drawViewers()
+	self:drawDebug()
 	
 	if(not self.survival)
 	then

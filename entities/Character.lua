@@ -15,6 +15,7 @@ setmetatable(Character, {
 function Character:_init(level, position)
 	Entity._init(self, level, "Character", position)
 	
+	self:setHitbox(Hitbox({x = position.x, y = position.y}, 54, 84))
 	self.image=love.graphics.newImage("assets/viewer.png")
 end
 
@@ -66,6 +67,8 @@ function Character:update(dt)
 	if self.position.y+self.image:getHeight()/2 > bottomClip then
 		self.position.y = bottomClip-self.image:getHeight()/2
 	end
+	
+	self:updateHitbox(-27, -42)
 end
 
 function Character:draw()

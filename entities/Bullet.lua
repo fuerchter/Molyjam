@@ -16,6 +16,7 @@ setmetatable(Bullet, {
 function Bullet:_init(level, position, velocity, size)
 	Entity._init(self, level, "Bullet", position)
 	
+	self:setHitbox(Hitbox({x = position.x, y = position.y}, size * 2, size * 2))
 	self.velocity = velocity
 	self.size = size
 end
@@ -29,7 +30,9 @@ function Bullet:update(dt)
 		return
 	end
 	
-	local entitiesCollided = self.level:getEntitiesInRange(self.position, self.size)
+	self:updateHitbox(-self.size, -self.size)
+	
+	local entitiesCollided = self.level:getEntitiesByCollision(self)
 	
 	for index = 1, #entitiesCollided do
 		if entitiesCollided[index].type == "Character" then
