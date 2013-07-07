@@ -16,6 +16,7 @@ function Character:_init(level, position)
 	Entity._init(self, level, "Character", position)
 	
 	self.hitboxOffset = 14
+	self.movementTimer = 0
 	
 	self.image=love.graphics.newImage("assets/character.png")
 	self:setHitbox(Hitbox({x = position.x, y = position.y}, self.image:getWidth() - self.hitboxOffset, self.image:getHeight() - self.hitboxOffset))
@@ -31,20 +32,25 @@ function Character:update(dt)
 	local topClip = 0
 	local rightClip = self.level.stageRect.width
 	local bottomClip = self.level.stageRect.height
+	local moved = false
 
 	local velocity={x=0, y=0}
 	
 	if love.keyboard.isDown("w") then
 		velocity.y=velocity.y-1
+		moved = true
 	end
 	if love.keyboard.isDown("s") then
 		velocity.y=velocity.y+1
+		moved = true
 	end
 	if love.keyboard.isDown("a") then
 		velocity.x=velocity.x-1
+		moved = true
 	end
 	if love.keyboard.isDown("d") then
 		velocity.x=velocity.x+1
+		moved = true
 	end
 	
 	local length=math.sqrt(math.pow(velocity.x, 2)+math.pow(velocity.y, 2))
@@ -71,8 +77,20 @@ function Character:update(dt)
 	end
 	
 	self:updateHitbox(-(self.image:getWidth()-self.hitboxOffset)/2, -(self.image:getHeight()-self.hitboxOffset)/2)
+	
+	if moved then
+		self.movementTimer = self.movementTimer + dt
+	end
+	
+	if self.movementTimer > 1 then
+		self.movementTimer = 0
+	end
 end
 
 function Character:draw()
-	love.graphics.draw(self.image, self.position.x, self.position.y, 0, -1, 1, self.image:getWidth()/2, self.image:getHeight()/2)
+	if self.movementTimer < 0.5 then
+		love.graphics.draw(self.image, self.position.x, self.position.y, 0, -1, 1, self.image:getWidth()/2, self.image:getHeight()/2)
+	else
+		love.graphics.draw(self.image, self.position.x, self.position.y, 0, 1, 1, self.image:getWidth()/2, self.image:getHeight()/2)
+	end
 end
