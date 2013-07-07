@@ -25,6 +25,7 @@ function Level:_init(windowSize)
 	self.choiceTimerFlooredPrevious=0
 	self.choiceTimerSound=love.audio.newSource("assets/timer.wav", "static")
 	self.noChoiceSound=love.audio.newSource("assets/buzzer.wav", "static")
+	self.deathSound=love.audio.newSource("assets/death.wav", "static")
 	
 	--general timer
 	self.timer=0
@@ -88,6 +89,8 @@ function Level:removeEntity(entity)
 
 	--character has died, finish game
 	if entity.type == "Character" then
+		self.deathSound:play()
+		self.deathSound:rewind()
 		self:finishGame()
 	end
 

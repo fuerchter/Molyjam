@@ -43,6 +43,7 @@ function Viewer:_init(level, opinions, position)
 	self.opinions=opinions
 	
 	self.image=love.graphics.newImage("assets/vegetarian1.png")
+	self.bulletSound=love.audio.newSource("assets/shot.wav", "stream")
 end
 
 function Viewer:calculateStatus(quote)
@@ -96,6 +97,9 @@ function Viewer:update(dt)
 			local length_x = (x / length) * speed
 			
 			Bullet(self.level, {x=self.position.x, y=self.position.y}, {x = length_x, y = length_y})
+			
+			self.bulletSound:play()
+			self.bulletSound:rewind()
 		end
 	elseif self.status == 3 then
 		if self.bulletTime > 4.5 then
@@ -118,6 +122,9 @@ function Viewer:update(dt)
 				local length_x = (x / length) * speed
 				
 				Bullet(self.level, {x=self.position.x, y=self.position.y}, {x = length_x, y = length_y})
+				
+				self.bulletSound:play()
+				self.bulletSound:rewind()
 			end
 		end
 	end
