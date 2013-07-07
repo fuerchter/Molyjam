@@ -24,7 +24,7 @@ function Bullet:update(dt)
 	self.position.x = self.position.x + self.velocity.x * dt
 	self.position.y = self.position.y + self.velocity.y * dt
 	
-	if self.position.x < 0 or self.position.y < 0 or self.position.x > 1280 or self.position.y > 720 then
+	if self.position.x < 0 or self.position.y < 0 or self.position.x > self.level.windowSize.width or self.position.y > self.level.windowSize.height then
 		self.level:removeEntity(self)
 		return
 	end

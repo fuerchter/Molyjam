@@ -56,6 +56,8 @@ function Level:_init(windowSize)
 	self.windowSize=windowSize
 	self.stageRect={x=0, y=0, width=251, height=self.windowSize.height-154}
 	self:generateViewers()
+	
+	self.character=Character(self, {x=100,y=100})
 end
 
 function Level:registerEntity(entity)
