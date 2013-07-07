@@ -342,6 +342,7 @@ function Level:drawTimers()
 end
 
 function Level:drawViewers()
+	love.graphics.setColor(0, 0, 0, 255)
 	for i=1, #self.entities
 	do
 		if self.entities[i].type == "Viewer" then
@@ -352,6 +353,7 @@ function Level:drawViewers()
 			love.graphics.print(tostring(self.entities[i].opinions[4]), 300, i*100+60)
 		end
 	end
+	love.graphics.setColor(255, 255, 255, 255)
 end
 
 function Level:drawDebug()
@@ -375,6 +377,7 @@ function Level:draw()
 	end
 	
 	--self:drawDebug()
+	--self:drawViewers()
 	
 	if(not self.survival)
 	then

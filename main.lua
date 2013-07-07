@@ -7,7 +7,7 @@ require "entities/Character"
 local level = nil
 
 function love.load()
-	local windowSize={width=1280, height=720}
+	windowSize={width=1280, height=720}
 	love.graphics.setMode(windowSize.width, windowSize.height, false, false, 0)
 	level = Level(windowSize)
 	background=love.graphics.newImage("assets/background.png")
